@@ -80,11 +80,11 @@ svypnadc <- svypnadc %>%
            child6 = ifelse (V2009 <=6, 1, 0),
            adult = ifelse (V2009 >14, 1, 0),
            
-           gender = factor(case_when(V2007==1 ~ "homem",
-                                     V2007==2 ~ "mulher")),
+           gender = factor(case_when(V2007==1 ~ "male",
+                                     V2007==2 ~ "female")),
            
-           color = factor(case_when(V2010==1 | V2010==3 ~ "branco",
-                                    V2010==2 | V2010==4 | V2010==5 ~ "preto ou pardo")),
+           color = factor(case_when(V2010==1 | V2010==3 ~ "white",
+                                    V2010==2 | V2010==4 | V2010==5 ~ "black/brown")),
            
            school = factor(case_when(VD3004==1 ~ "uneducated",
                                      VD3004==2 ~ "incomp elementary",
@@ -154,12 +154,15 @@ svypnadc <- svypnadc %>%
     mutate(poverty = ifelse (pchi< lpbm, 1, 0),
            expoverty = ifelse (pchi< lepbm, 1, 0))
 
+# per capita household income
 pchi <- svymean(~pchi, svypnadc, na.rm = T)
 pchi
 
+# poverty headcount index
 fgt0 <- svymean(~poverty, svypnadc, na.rm = T)
 fgt0
 
+# Child Poverty
 fgt0_child <- svymean(~poverty, subset(svypnadc, child ==1), na.rm = T)
 fgt0_child
 
