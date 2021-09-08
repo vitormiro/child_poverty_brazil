@@ -136,7 +136,7 @@ svypnadc <- svypnadc %>%
 
 svypnadc <- svypnadc %>% group_by(hh_id) %>% 
     mutate(hh_num = sum(member),
-           child_num = sum(child),
+           child_num = sum(child6),
            adults_num = sum(adult),
            # per capita household income - pchi
            hh_income = ifelse(member==1, sum(income), 0),
@@ -162,7 +162,18 @@ pchi
 fgt0 <- svymean(~poverty, svypnadc, na.rm = T)
 fgt0
 
-# Child Poverty
+
+fgt0 <- svymean(~poverty, subset(svypnadc, region=="Nordeste"), na.rm = T)
+fgt0
+
+
+### ------------------------------------------------------------------------###
+### Child Poverty ###
+
+## Filter households with children
+svypnadc_child <- svypnadc %>% filter(child_num > 0)
+
+## calculate indicators
 fgt0_child <- svymean(~poverty, subset(svypnadc, child ==1), na.rm = T)
 fgt0_child
 
